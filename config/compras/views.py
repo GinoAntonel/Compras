@@ -30,3 +30,9 @@ def mostrar(request):
     compra = Compras(texto=context)
     compra.save()
     return redirect('/')
+
+def eliminar(request):
+    context = request.POST.get('compra_id')
+    compra = Compras.objects.get(id=context)
+    compra.delete()
+    return redirect('/')

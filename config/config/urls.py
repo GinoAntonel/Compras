@@ -17,10 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from compras.views import (dame_compras,
-                          mostrar)
+                          mostrar,
+                          eliminar,)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', dame_compras, name='index'),
     url(r'^compra', mostrar),
+    url(r'^eliminar', eliminar),
 ]
