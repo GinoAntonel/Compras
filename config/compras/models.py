@@ -8,6 +8,7 @@ from django.conf import settings
 class Compras(models.Model):
     texto = models.CharField('Texto', max_length=50, null=False, blank=False)
     fecha = models.DateTimeField('Fecha', auto_now=True)
+    archived = models.BooleanField(default=False)
     
     def __str__(self):
         return 'Compra: {}'.format(self.texto)

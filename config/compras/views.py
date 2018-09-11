@@ -36,3 +36,11 @@ def eliminar(request):
     compra = Compras.objects.get(id=context)
     compra.delete()
     return redirect('/')
+
+def archivar(request):
+    context = request.POST.get('compra_id')
+    compra = Compras.objects.get(id=context)
+    compra.archived = True
+    compra.save()
+    return redirect('/')
+    

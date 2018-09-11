@@ -18,73 +18,67 @@
 </head>
 
 <body class="bg-dark">
-    <div >
-    <div class="container-fluid">
-        <div class='row'>
-            <div class="col-md-10 offset-md-1">
-               <br>
-                <form action="compras" method="post" >
-                    {% csrf_token %}
-                    <div class="input-group">
-                        <input type="text" name="texto" class="form-control" placeholder="Que compro?" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4">
-                        <div class="input-group-append" id="button-addon4">
-                            <button type="submit" class="btn btn-outline-secondary">Send</button>
-<!--                            <button type="submit2" class="btn btn-outline-secondary">Borrar</button>-->
+    <div>
+        <div class="container-fluid">
+            <div class='row'>
+                <div class="col-md-10 offset-md-1">
+                    <br>
+                    <form action="compras" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" name="texto" class="form-control" placeholder="Que compro?" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4">
+                            <div class="input-group-append" id="button-addon4">
+                                <button type="submit" class="btn btn-outline-secondary">Send</button>
+                                <!--                            <button type="submit2" class="btn btn-outline-secondary">Borrar</button>-->
+                            </div>
+
                         </div>
-                        
-                    </div>
 
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
-        
-        
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope='col'>Fecha</th>
-                    <th scope='col'>Compra</th>
-                    <th scope='col'>Opciones</th>
-                </tr>
-            </thead>
-            {% for cm in compras %}
-            <form action="eliminar" method="post">
-            {% csrf_token %}
-            <tbody>
-                <tr>
-                    <th scope="row" class="text-white">{{cm.fecha}}
-                    </th>
-                    <td class="text-white">{{cm.texto}}</td>
-                    <input type="hidden" name="compra_id" value="{{ cm.id }}">
-                    <td><button class="btn  btn-danger" type="submit">Delete</button><span></span>
-                    <button class="btn btn-info">Archive</button></td>
-                </tr>
-            </tbody>
-            </form>
-            {% endfor %}
-        </table>      
-<!--
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
+
+
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope='col'>Fecha</th>
+                        <th scope='col'>Compra</th>
+                        <th scope='col'>Opciones</th>
+                    </tr>
+                </thead>
                 {% for cm in compras %}
-                <br>
-                <div class="card">
-                    <div class="card-header bg-primary">
-                        <a>Compra:</a>
-                        <a>{{ cm.fecha }}</a>
-                    </div>
-                    <div class="card-body bg-info">
-                        <h5 class="card-title">{{ cm.texto }}</h5>
-                    </div>
-                </div>{% endfor %}
-            </div>
--->
+                    {% if not cm.archived %}
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="text-white">{{cm.fecha | date:"d/m/Y " }}
+                                    <!--h:m:s-->
+                                </th>
+                                <td class="text-white">{{cm.texto}}</td>
 
-        </div>
+                                <td>
+                                    <form action="eliminar" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="compra_id" value="{{ cm.id }}">
+                                        <button class="btn btn-danger" type="submit" value="eliminar" name="_eliminar">Delete</button><span></span>
+                                    </form>
+
+                                    <form action="archivar" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="compra_id" value="{{ cm.id }}">
+                                        <button class="btn btn-info" type="submit" value="archivar" name="_archivar">Archive</button>
+                                    </form>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    {% endif %}
+                {% endfor %}
+            </table>
 
     </div>
     </div>
-    
+
 </body>
 
 </html>
